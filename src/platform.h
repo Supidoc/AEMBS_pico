@@ -15,7 +15,7 @@ extern "C" {
 #define PL_CONFIG_USE_SDK_BLINKY            (1) /* implements an endless loop with RP2040 SDK */
 
 /* SW02: Architecture */
-#define PL_CONFIG_USE_SDK_BLINKY_MCULIB     (0 && PL_CONFIG_USE_SDK_BLINKY) /* replacing SDK blinky with McuLib version */
+#define PL_CONFIG_USE_SDK_BLINKY_MCULIB     (1 && PL_CONFIG_USE_SDK_BLINKY) /* replacing SDK blinky with McuLib version */
 
 /* SW03: Development */
 #define PL_CONFIG_USE_LEDS                  (0) /* adding leds module support */
