@@ -10,16 +10,29 @@
 #include "leds.h"
 #include "stdint.h"
 
-void BML_loop(void) {
-  static uint16_t counter = 0;
-  for (;;) {
+void BML_loop(void)
+{
+  static uint32_t counter = 0;
+  for (;;)
+  {
     counter++;
-    if (counter >=
-        BML_LED_DELAY_MS / McuShellCdcDevice_CONFIG_PROCESS_WAIT_TIME_MS) {
+    if (counter % (BML_LED_DELAY_MS /
+                   McuShellCdcDevice_CONFIG_PROCESS_WAIT_TIME_MS) ==
+        0)
+    {
       Leds_Neg(LEDS_BLUE);
+    }
+    if (counter % (BML_MSG_DELAY_MS /
+                   McuShellCdcDevice_CONFIG_PROCESS_WAIT_TIME_MS) ==
+        0)
+    {
       McuShellCdcDevice_WriteStr("Hello World!\r\n");
       McuShellCdcDevice_Flush();
+    }
 
+    if (counter >= BML_MSG_DELAY_MS * BML_LED_DELAY_MS /
+                       McuShellCdcDevice_CONFIG_PROCESS_WAIT_TIME_MS)
+    {
       counter = 0;
     }
     McuShellCdcDevice_Process();

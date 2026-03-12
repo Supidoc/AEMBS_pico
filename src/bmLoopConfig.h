@@ -12,8 +12,9 @@ extern "C"
 {
 #endif
 
-
-#define BML_LED_DELAY_MS (1000) /*< Delay for the led to toggle and for the message to be sent*/
+#define BML_LED_DELAY_MS                                                       \
+  (1000) /*< Delay for the led to toggle and for the message to be sent*/
+#define BML_MSG_DELAY_MS (4000) /*< Delay for the message to be sent*/
 
 #ifdef __cplusplus
 } /* extern "C" */
