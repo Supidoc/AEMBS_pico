@@ -8,16 +8,17 @@
 #define __BLINKY_RP_SDK_H_
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-/*! 
- * \brief Implements a blinky using the RP2040 pico SDK. Does not return!
- */
-void blinky_sdk_rp(void);
+    /*!
+     * \brief Implements a blinky using the RP2040 pico SDK. Does not return!
+     */
+    void blinky_sdk_rp(void);
 
 #ifdef __cplusplus
-}  /* extern "C" */
+} /* extern "C" */
 #endif
 
 #endif /* __BLINKY_RP_SDK_H_ */

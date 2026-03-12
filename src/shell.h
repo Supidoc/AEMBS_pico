@@ -22,7 +22,7 @@ void Shell_Deinit(void);
 void Shell_Init(void);
 
 #ifdef __cplusplus
-}  /* extern "C" */
+} /* extern "C" */
 #endif
 
 #endif /* SHELL_H_ */

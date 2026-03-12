@@ -8,15 +8,16 @@
 #define __APPLICATION_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #include "platform.h"
 
-void App_Run(void);
+    void App_Run(void);
 
 #ifdef __cplusplus
-}  /* extern "C" */
+} /* extern "C" */
 #endif
 
 #endif /* __APPLICATION_H__ */

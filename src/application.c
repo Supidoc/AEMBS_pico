@@ -6,13 +6,22 @@
 
 #include "platform.h"
 #if PL_CONFIG_USE_SDK_BLINKY
-  #include "blinky_rp_sdk.h"
+#include "blinky_rp_sdk.h"
 #endif
 
-void App_Run(void) {
+#if PL_CONFIG_USE_BM_LOOP
+#include "bmLoop.h"
+#endif
+
+void App_Run(void)
+{
   PL_Init(); /* initialize platform and drivers */
 #if PL_CONFIG_USE_SDK_BLINKY
   blinky_sdk_rp();
+#endif
+
+#if PL_CONFIG_USE_BM_LOOP
+  BML_loop();
 #endif
   PL_Deinit(); /* deinitialize the platform */
 }

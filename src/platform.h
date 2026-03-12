@@ -12,14 +12,14 @@ extern "C" {
 #endif
 
 /* SW01: Introcuction */
-#define PL_CONFIG_USE_SDK_BLINKY            (1) /* implements an endless loop with RP2040 SDK */
+#define PL_CONFIG_USE_SDK_BLINKY            (0) /* implements an endless loop with RP2040 SDK */
 
 /* SW02: Architecture */
-#define PL_CONFIG_USE_SDK_BLINKY_MCULIB     (1 && PL_CONFIG_USE_SDK_BLINKY) /* replacing SDK blinky with McuLib version */
+#define PL_CONFIG_USE_SDK_BLINKY_MCULIB     (0 && PL_CONFIG_USE_SDK_BLINKY) /* replacing SDK blinky with McuLib version */
 
 /* SW03: Development */
-#define PL_CONFIG_USE_LEDS                  (0) /* adding leds module support */
-#define PL_CONFIG_USE_BM_LOOP               (0) /* bare metal loop with McuLib (leds, buttons, wait, CDC) */
+#define PL_CONFIG_USE_LEDS                  (1) /* adding leds module support */
+#define PL_CONFIG_USE_BM_LOOP               (1 && PL_CONFIG_USE_LEDS) /* bare metal loop with McuLib (leds, buttons, wait, CDC) */
 
 /* SW04: Firmware */
 #define PL_CONFIG_USE_BUTTONS               (0) /* adding button support */

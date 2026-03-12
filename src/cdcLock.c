@@ -8,15 +8,18 @@
 #include "cdcLock.h"
 #include "McuRTOS.h"
 
-void CdcLock_Take(void) {
+void CdcLock_Take(void)
+{
 }
 
-void CdcLock_Give(void) {
+void CdcLock_Give(void)
+{
 }
 
-void CdcLock_Deinit(void) {
+void CdcLock_Deinit(void)
+{
 }
 
-void CdcLock_Init(void) {
+void CdcLock_Init(void)
+{
 }
-

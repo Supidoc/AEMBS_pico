@@ -11,39 +11,41 @@
 #include "McuRTOS.h"
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #if McuLib_CONFIG_SDK_USE_FREERTOS
 
-/*!
- * \brief Start debouncing with a set of buttons. Do not call this method from an interrupt.
- *        The application gets notified through events.
- * \param buttons Set of initial buttons pressed
- */
-void Debounce_StartDebounce(uint32_t buttons);
+    /*!
+     * \brief Start debouncing with a set of buttons. Do not call this method from an interrupt.
+     *        The application gets notified through events.
+     * \param buttons Set of initial buttons pressed
+     */
+    void Debounce_StartDebounce(uint32_t buttons);
 
-/*!
- * \brief Same as Debounce_StartDebounce(), but usable from an interrupt
- * \param buttons Set of initial buttons pressed
- * \param pxHigherPriorityTaskWoken Set to true if a task with a higher priority has been woken up
- */
-void Debounce_StartDebounceFromISR(uint32_t buttons, BaseType_t *pxHigherPriorityTaskWoken);
+    /*!
+     * \brief Same as Debounce_StartDebounce(), but usable from an interrupt
+     * \param buttons Set of initial buttons pressed
+     * \param pxHigherPriorityTaskWoken Set to true if a task with a higher priority has been woken
+     * up
+     */
+    void Debounce_StartDebounceFromISR(uint32_t buttons, BaseType_t* pxHigherPriorityTaskWoken);
 
 #endif
 
-/*!
- * Module de-initialization
- */
-void Debounce_Deinit(void);
+    /*!
+     * Module de-initialization
+     */
+    void Debounce_Deinit(void);
 
-/*!
- * \brief Module initialization
- */
-void Debounce_Init(void);
+    /*!
+     * \brief Module initialization
+     */
+    void Debounce_Init(void);
 
 #ifdef __cplusplus
-}  /* extern "C" */
+} /* extern "C" */
 #endif
 
 #endif /* DEBOUNCE_H_ */
