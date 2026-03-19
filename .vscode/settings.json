@@ -1,8 +1,9 @@
 {
     "cmake.options.statusBarVisibility": "visible",
     "cmake.buildBeforeRun": true,
-    "cmake.configureOnOpen": false,
+    "cmake.configureOnOpen": true,
     "cmake.useCMakePresets": "always",
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "editor.formatOnSave": true,
     "clang-format.executable": "${workspaceRoot}/.clang-format"
 }

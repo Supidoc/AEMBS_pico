@@ -9,9 +9,9 @@
 
 int main(void)
 {
-    App_Run();
-    for (;;)
-    {
-    } /* not not leave main */
-    return 0;
+  App_Run();
+  for (;;)
+  {
+  } /* not not leave main */
+  return 0;
 }

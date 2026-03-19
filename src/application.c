@@ -13,9 +13,19 @@
 #include "bmLoop.h"
 #endif
 
+#if PL_CONFIG_USE_BLINKY_TASK
+#include "McuRTOS.h"
+#include "rtos.h"
+#endif
+
 void App_Run(void)
 {
   PL_Init(); /* initialize platform and drivers */
+
+#if PL_CONFIG_USE_BLINKY_TASK
+  RTOS_Init();
+  vTaskStartScheduler();
+#endif
 #if PL_CONFIG_USE_SDK_BLINKY
   blinky_sdk_rp();
 #endif

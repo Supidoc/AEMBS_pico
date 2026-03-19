@@ -25,6 +25,7 @@
 
 #include "bmLoopConfig.h"
 #include "bmLoop.h"
+#include "rtos.h"
 
 typedef struct Buttons_Desc_t
 {
@@ -176,24 +177,19 @@ static void pint_intr_callback(pint_pin_int_t pintr, uint32_t pmatch_status)
     Debounce_StartDebounceFromISR(Buttons_BIT_USER, &xHigherPriorityTaskWoken);
     break;
   case kPINT_PinInt1:
-    Debounce_StartDebounceFromISR(BUTTONS_BIT_NAV_UP,
-                                  &xHigherPriorityTaskWoken);
+    Debounce_StartDebounceFromISR(BUTTONS_BIT_NAV_UP, &xHigherPriorityTaskWoken);
     break;
   case kPINT_PinInt2:
-    Debounce_StartDebounceFromISR(BUTTONS_BIT_NAV_DOWN,
-                                  &xHigherPriorityTaskWoken);
+    Debounce_StartDebounceFromISR(BUTTONS_BIT_NAV_DOWN, &xHigherPriorityTaskWoken);
     break;
   case kPINT_PinInt3:
-    Debounce_StartDebounceFromISR(BUTTONS_BIT_NAV_LEFT,
-                                  &xHigherPriorityTaskWoken);
+    Debounce_StartDebounceFromISR(BUTTONS_BIT_NAV_LEFT, &xHigherPriorityTaskWoken);
     break;
   case kPINT_PinInt4:
-    Debounce_StartDebounceFromISR(BUTTONS_BIT_NAV_RIGHT,
-                                  &xHigherPriorityTaskWoken);
+    Debounce_StartDebounceFromISR(BUTTONS_BIT_NAV_RIGHT, &xHigherPriorityTaskWoken);
     break;
   case kPINT_PinInt5:
-    Debounce_StartDebounceFromISR(BUTTONS_BIT_NAV_CENTER,
-                                  &xHigherPriorityTaskWoken);
+    Debounce_StartDebounceFromISR(BUTTONS_BIT_NAV_CENTER, &xHigherPriorityTaskWoken);
     break;
   default:
     break;
@@ -239,6 +235,7 @@ static void gpio_IsrCallback(uint gpio, uint32_t events)
 /* \TODO handle button interrupt */
 #if BML_PROCESS_BUTTONS
     BML_OnISRButtonPressed(button);
+    RTOS_On_Buttons_ISR(button);
 #endif
   }
 }
@@ -268,9 +265,8 @@ void Buttons_Init(void)
   btnConfig.hw.gpio     = BUTTONS_PINS_NAVCENTER_GPIO;
   btnConfig.hw.port     = BUTTONS_PINS_NAVCENTER_PORT;
   btnConfig.hw.pin      = BUTTONS_PINS_NAVCENTER_PIN;
-#if PL_CONFIG_BOARD_ID ==                                                      \
-    PL_CONFIG_BOARD_ID_TINYK22_APROG_HAT_V7 /* V7 does not have hardware       \
-                                               pull-ups on the board */
+#if PL_CONFIG_BOARD_ID == PL_CONFIG_BOARD_ID_TINYK22_APROG_HAT_V7 /* V7 does not have hardware                                             \
+                                                                     pull-ups on the board */
   btnConfig.hw.pull = McuGPIO_PULL_UP;
 #endif
   Buttons_Infos[BUTTONS_NAV_CENTER].handle = McuBtn_InitButton(&btnConfig);
@@ -278,9 +274,8 @@ void Buttons_Init(void)
   btnConfig.hw.gpio                        = BUTTONS_PINS_NAVLEFT_GPIO;
   btnConfig.hw.port                        = BUTTONS_PINS_NAVLEFT_PORT;
   btnConfig.hw.pin                         = BUTTONS_PINS_NAVLEFT_PIN;
-#if PL_CONFIG_BOARD_ID ==                                                      \
-    PL_CONFIG_BOARD_ID_TINYK22_APROG_HAT_V7 /* V7 does not have hardware       \
-                                               pull-ups on the board */
+#if PL_CONFIG_BOARD_ID == PL_CONFIG_BOARD_ID_TINYK22_APROG_HAT_V7 /* V7 does not have hardware                                             \
+                                                                     pull-ups on the board */
   btnConfig.hw.pull = McuGPIO_PULL_UP;
 #endif
   Buttons_Infos[BUTTONS_NAV_LEFT].handle = McuBtn_InitButton(&btnConfig);
@@ -288,9 +283,8 @@ void Buttons_Init(void)
   btnConfig.hw.gpio                      = BUTTONS_PINS_NAVRIGHT_GPIO;
   btnConfig.hw.port                      = BUTTONS_PINS_NAVRIGHT_PORT;
   btnConfig.hw.pin                       = BUTTONS_PINS_NAVRIGHT_PIN;
-#if PL_CONFIG_BOARD_ID ==                                                      \
-    PL_CONFIG_BOARD_ID_TINYK22_APROG_HAT_V7 /* V7 does not have hardware       \
-                                               pull-ups on the board */
+#if PL_CONFIG_BOARD_ID == PL_CONFIG_BOARD_ID_TINYK22_APROG_HAT_V7 /* V7 does not have hardware                                             \
+                                                                     pull-ups on the board */
   btnConfig.hw.pull = McuGPIO_PULL_UP;
 #endif
   Buttons_Infos[BUTTONS_NAV_RIGHT].handle = McuBtn_InitButton(&btnConfig);
@@ -298,9 +292,8 @@ void Buttons_Init(void)
   btnConfig.hw.gpio                       = BUTTONS_PINS_NAVUP_GPIO;
   btnConfig.hw.port                       = BUTTONS_PINS_NAVUP_PORT;
   btnConfig.hw.pin                        = BUTTONS_PINS_NAVUP_PIN;
-#if PL_CONFIG_BOARD_ID ==                                                      \
-    PL_CONFIG_BOARD_ID_TINYK22_APROG_HAT_V7 /* V7 does not have hardware       \
-                                               pull-ups on the board */
+#if PL_CONFIG_BOARD_ID == PL_CONFIG_BOARD_ID_TINYK22_APROG_HAT_V7 /* V7 does not have hardware                                             \
+                                                                     pull-ups on the board */
   btnConfig.hw.pull = McuGPIO_PULL_UP;
 #endif
   Buttons_Infos[BUTTONS_NAV_UP].handle = McuBtn_InitButton(&btnConfig);
@@ -308,30 +301,20 @@ void Buttons_Init(void)
   btnConfig.hw.gpio                    = BUTTONS_PINS_NAVDOWN_GPIO;
   btnConfig.hw.port                    = BUTTONS_PINS_NAVDOWN_PORT;
   btnConfig.hw.pin                     = BUTTONS_PINS_NAVDOWN_PIN;
-#if PL_CONFIG_BOARD_ID ==                                                      \
-    PL_CONFIG_BOARD_ID_TINYK22_APROG_HAT_V7 /* V7 does not have hardware       \
-                                               pull-ups on the board */
+#if PL_CONFIG_BOARD_ID == PL_CONFIG_BOARD_ID_TINYK22_APROG_HAT_V7 /* V7 does not have hardware                                             \
+                                                                     pull-ups on the board */
   btnConfig.hw.pull = McuGPIO_PULL_UP;
 #endif
   Buttons_Infos[BUTTONS_NAV_DOWN].handle = McuBtn_InitButton(&btnConfig);
 
-  PORT_SetPinInterruptConfig(BUTTONS_PINS_NAVLEFT_PORT,
-                             BUTTONS_PINS_NAVLEFT_PIN,
-                             kPORT_InterruptFallingEdge);
-  PORT_SetPinInterruptConfig(BUTTONS_PINS_NAVRIGHT_PORT,
-                             BUTTONS_PINS_NAVRIGHT_PIN,
-                             kPORT_InterruptFallingEdge);
+  PORT_SetPinInterruptConfig(BUTTONS_PINS_NAVLEFT_PORT, BUTTONS_PINS_NAVLEFT_PIN, kPORT_InterruptFallingEdge);
+  PORT_SetPinInterruptConfig(BUTTONS_PINS_NAVRIGHT_PORT, BUTTONS_PINS_NAVRIGHT_PIN, kPORT_InterruptFallingEdge);
   NVIC_SetPriority(PORTA_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY);
   EnableIRQ(PORTA_IRQn);
 
-  PORT_SetPinInterruptConfig(BUTTONS_PINS_NAVDOWN_PORT,
-                             BUTTONS_PINS_NAVDOWN_PIN,
-                             kPORT_InterruptFallingEdge);
-  PORT_SetPinInterruptConfig(BUTTONS_PINS_NAVUP_PORT, BUTTONS_PINS_NAVUP_PIN,
-                             kPORT_InterruptFallingEdge);
-  PORT_SetPinInterruptConfig(BUTTONS_PINS_NAVCENTER_PORT,
-                             BUTTONS_PINS_NAVCENTER_PIN,
-                             kPORT_InterruptFallingEdge);
+  PORT_SetPinInterruptConfig(BUTTONS_PINS_NAVDOWN_PORT, BUTTONS_PINS_NAVDOWN_PIN, kPORT_InterruptFallingEdge);
+  PORT_SetPinInterruptConfig(BUTTONS_PINS_NAVUP_PORT, BUTTONS_PINS_NAVUP_PIN, kPORT_InterruptFallingEdge);
+  PORT_SetPinInterruptConfig(BUTTONS_PINS_NAVCENTER_PORT, BUTTONS_PINS_NAVCENTER_PIN, kPORT_InterruptFallingEdge);
   NVIC_SetPriority(PORTB_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY);
   EnableIRQ(PORTB_IRQn);
 #elif McuLib_CONFIG_CPU_IS_LPC
@@ -390,31 +373,23 @@ void Buttons_Init(void)
   Buttons_Infos[BUTTONS_NAV_CENTER].handle = McuBtn_InitButton(&btnConfig);
   SYSCON_AttachSignal(SYSCON, kPINT_PinInt5, BUTTONS_PINS_NAVCENTER_PINTSEL);
 
-  PINT_Init(PINT); /* Initialize PINT */
-  PINT_PinInterruptConfig(
-      PINT, kPINT_PinInt0, kPINT_PinIntEnableFallEdge,
-      pint_intr_callback); /* Setup Pin Interrupt 0 for rising edge */
-  PINT_EnableCallbackByIndex(
-      PINT, kPINT_PinInt0); /* Enable callbacks for PINT0 by Index */
+  PINT_Init(PINT);                                                                              /* Initialize PINT */
+  PINT_PinInterruptConfig(PINT, kPINT_PinInt0, kPINT_PinIntEnableFallEdge, pint_intr_callback); /* Setup Pin Interrupt 0 for rising edge */
+  PINT_EnableCallbackByIndex(PINT, kPINT_PinInt0);                                              /* Enable callbacks for PINT0 by Index */
 
-  PINT_PinInterruptConfig(PINT, kPINT_PinInt1, kPINT_PinIntEnableFallEdge,
-                          pint_intr_callback);
+  PINT_PinInterruptConfig(PINT, kPINT_PinInt1, kPINT_PinIntEnableFallEdge, pint_intr_callback);
   PINT_EnableCallbackByIndex(PINT, kPINT_PinInt1);
 
-  PINT_PinInterruptConfig(PINT, kPINT_PinInt2, kPINT_PinIntEnableFallEdge,
-                          pint_intr_callback);
+  PINT_PinInterruptConfig(PINT, kPINT_PinInt2, kPINT_PinIntEnableFallEdge, pint_intr_callback);
   PINT_EnableCallbackByIndex(PINT, kPINT_PinInt2);
 
-  PINT_PinInterruptConfig(PINT, kPINT_PinInt3, kPINT_PinIntEnableFallEdge,
-                          pint_intr_callback);
+  PINT_PinInterruptConfig(PINT, kPINT_PinInt3, kPINT_PinIntEnableFallEdge, pint_intr_callback);
   PINT_EnableCallbackByIndex(PINT, kPINT_PinInt3);
 
-  PINT_PinInterruptConfig(PINT, kPINT_PinInt4, kPINT_PinIntEnableFallEdge,
-                          pint_intr_callback);
+  PINT_PinInterruptConfig(PINT, kPINT_PinInt4, kPINT_PinIntEnableFallEdge, pint_intr_callback);
   PINT_EnableCallbackByIndex(PINT, kPINT_PinInt4);
 
-  PINT_PinInterruptConfig(PINT, kPINT_PinInt5, kPINT_PinIntEnableFallEdge,
-                          pint_intr_callback);
+  PINT_PinInterruptConfig(PINT, kPINT_PinInt5, kPINT_PinIntEnableFallEdge, pint_intr_callback);
   PINT_EnableCallbackByIndex(PINT, kPINT_PinInt5);
 #elif McuLib_CONFIG_CPU_IS_RPxxxx
   McuBtn_Config_t btnConfig;
@@ -443,15 +418,10 @@ void Buttons_Init(void)
   btnConfig.hw.pull                        = McuGPIO_PULL_UP;
   Buttons_Infos[BUTTONS_NAV_DOWN].handle   = McuBtn_InitButton(&btnConfig);
 
-  gpio_set_irq_enabled_with_callback(
-      BUTTONS_PINS_NAVCENTER_PIN, GPIO_IRQ_EDGE_FALL, true, &gpio_IsrCallback);
-  gpio_set_irq_enabled_with_callback(BUTTONS_PINS_NAVUP_PIN, GPIO_IRQ_EDGE_FALL,
-                                     true, &gpio_IsrCallback);
-  gpio_set_irq_enabled_with_callback(
-      BUTTONS_PINS_NAVDOWN_PIN, GPIO_IRQ_EDGE_FALL, true, &gpio_IsrCallback);
-  gpio_set_irq_enabled_with_callback(
-      BUTTONS_PINS_NAVLEFT_PIN, GPIO_IRQ_EDGE_FALL, true, &gpio_IsrCallback);
-  gpio_set_irq_enabled_with_callback(
-      BUTTONS_PINS_NAVRIGHT_PIN, GPIO_IRQ_EDGE_FALL, true, &gpio_IsrCallback);
+  gpio_set_irq_enabled_with_callback(BUTTONS_PINS_NAVCENTER_PIN, GPIO_IRQ_EDGE_FALL, true, &gpio_IsrCallback);
+  gpio_set_irq_enabled_with_callback(BUTTONS_PINS_NAVUP_PIN, GPIO_IRQ_EDGE_FALL, true, &gpio_IsrCallback);
+  gpio_set_irq_enabled_with_callback(BUTTONS_PINS_NAVDOWN_PIN, GPIO_IRQ_EDGE_FALL, true, &gpio_IsrCallback);
+  gpio_set_irq_enabled_with_callback(BUTTONS_PINS_NAVLEFT_PIN, GPIO_IRQ_EDGE_FALL, true, &gpio_IsrCallback);
+  gpio_set_irq_enabled_with_callback(BUTTONS_PINS_NAVRIGHT_PIN, GPIO_IRQ_EDGE_FALL, true, &gpio_IsrCallback);
 #endif
 }

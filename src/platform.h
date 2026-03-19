@@ -19,14 +19,14 @@ extern "C" {
 
 /* SW03: Development */
 #define PL_CONFIG_USE_LEDS                  (1) /* adding leds module support */
-#define PL_CONFIG_USE_BM_LOOP               (1 && PL_CONFIG_USE_LEDS) /* bare metal loop with McuLib (leds, buttons, wait, CDC) */
+#define PL_CONFIG_USE_BM_LOOP               (0 && PL_CONFIG_USE_LEDS) /* bare metal loop with McuLib (leds, buttons, wait, CDC) */
 
 /* SW04: Firmware */
 #define PL_CONFIG_USE_BUTTONS               (1) /* adding button support */
 
 /* SW05: RTOS */
 /* PRE: enabled McuLib_CONFIG_SDK_USE_FREERTOS */
-#define PL_CONFIG_USE_BLINKY_TASK           (0 && McuLib_CONFIG_SDK_USE_FREERTOS) /* blinky task created from app task, printing button messages */
+#define PL_CONFIG_USE_BLINKY_TASK           (1 && McuLib_CONFIG_SDK_USE_FREERTOS) /* blinky task created from app task, printing button messages */
 
 /* SW06: Kernel */
 // PRE: enable configUSE_SEGGER_SYSTEM_VIEWER_HOOKS

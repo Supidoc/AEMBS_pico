@@ -18,7 +18,7 @@
 #define McuLib_CONFIG_SDK_VERSION_USED              McuLib_CONFIG_SDK_RPI_PICO
 /* ---------------------------------------------------------------------- */
 /* FreeRTOS */
-#define McuLib_CONFIG_SDK_USE_FREERTOS              (0)
+#define McuLib_CONFIG_SDK_USE_FREERTOS              (1)
 #define configMINIMAL_STACK_SIZE                    (128/sizeof(StackType_t)) /* stack size for IDLE task */
 #define configTIMER_TASK_STACK_DEPTH                (600/sizeof(StackType_t)) /* stack size for Timer Service task */
 #define configTOTAL_HEAP_SIZE                       (64*1024)

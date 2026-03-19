@@ -45,6 +45,9 @@ project(AEMBS_pico
   C CXX ASM
 )
 
+# Export compilation database for editor tooling (IntelliSense/clangd).
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # set C and C++ standard to be used
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
