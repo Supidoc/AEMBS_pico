@@ -12,12 +12,17 @@
 extern "C"
 {
 #endif
+#include "bmLoopConfig.h"
+#include "stdint.h"
 
-    void BML_loop(void);
+  void BML_loop(void);
 
-    void BML_init(void);
-    void BML_deinit(void);
+  void BML_init(void);
+  void BML_deinit(void);
 
+#if BML_PROCESS_BUTTONS
+  void BML_OnISRButtonPressed(uint32_t buttonBits);
+#endif
 #ifdef __cplusplus
 } /* extern "C" */
 #endif

@@ -22,8 +22,7 @@ extern "C" {
 #define PL_CONFIG_USE_BM_LOOP               (1 && PL_CONFIG_USE_LEDS) /* bare metal loop with McuLib (leds, buttons, wait, CDC) */
 
 /* SW04: Firmware */
-#define PL_CONFIG_USE_BUTTONS               (0) /* adding button support */
-#define PL_CONFIG_USE_BUTTONS_ISR           (0 && PL_CONFIG_USE_BUTTONS) /* using buttons with interrupts */
+#define PL_CONFIG_USE_BUTTONS               (1) /* adding button support */
 
 /* SW05: RTOS */
 /* PRE: enabled McuLib_CONFIG_SDK_USE_FREERTOS */

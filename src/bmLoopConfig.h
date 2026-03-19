@@ -12,9 +12,15 @@ extern "C"
 {
 #endif
 
-#define BML_LED_DELAY_MS                                                       \
-  (1000) /*< Delay for the led to toggle and for the message to be sent*/
-#define BML_MSG_DELAY_MS (4000) /*< Delay for the message to be sent*/
+#include "platform.h"
+
+#define BML_ENABLE_LED      (1) /*< Enable or disable the led toggling */
+#define BML_ENABLE_MSG      (1) /*< Enable or disable the message sending */
+
+#define BML_LED_DELAY_MS    (1000) /*< Delay for the led to toggle and for the message to be sent*/
+#define BML_MSG_DELAY_MS    (4000) /*< Delay for the message to be sent*/
+
+#define BML_PROCESS_BUTTONS (1 && PL_CONFIG_USE_BUTTONS) /*< Enable or disable the button processing */
 
 #ifdef __cplusplus
 } /* extern "C" */
