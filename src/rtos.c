@@ -16,6 +16,7 @@
 #include "McuShellCdcDevice.h"
 #include "buttons.h"
 #include "stdio.h"
+#include "McuSystemView.h"
 
 /************************************
  *     Private Macros / Defines    *
@@ -49,6 +50,7 @@ static QueueHandle_t buttonsQueue                          = NULL;
 static const char     *buttonNames[BUTTONS_NOF_BUTTONS]    = {"NAV_UP", "NAV_DOWN", "NAV_LEFT", "NAV_RIGHT", "NAV_CENTER"};
 static const Buttons_e buttonBitsEnum[BUTTONS_NOF_BUTTONS] = {BUTTONS_BIT_NAV_UP, BUTTONS_BIT_NAV_DOWN, BUTTONS_BIT_NAV_LEFT,
                                                               BUTTONS_BIT_NAV_RIGHT, BUTTONS_BIT_NAV_CENTER};
+static TaskHandle_t    helloWorldTask;
 
 /*******************************************
  *     Public Function Implementations     *
@@ -71,7 +73,7 @@ void RTOS_Init(void)
 
 void RTOS_on_buttons_isr(uint32_t buttonBits)
 {
-
+  McuSystemView_Print("Buttons ISR");
   for (uint8_t i = 0; i < BUTTONS_NOF_BUTTONS; i++)
   {
     if (buttonBits & buttonBitsEnum[i])
@@ -79,6 +81,7 @@ void RTOS_on_buttons_isr(uint32_t buttonBits)
       RTOS_ButtonsQueueItem_t queueItem;
       queueItem.button = buttonBitsEnum[i];
       xQueueSendFromISR(buttonsQueue, &queueItem, NULL);
+      portYIELD_FROM_ISR(xTaskResumeFromISR(helloWorldTask));
     }
   }
 }
@@ -109,6 +112,7 @@ static void init_blinky_task(void)
 
 static void hello_world_task(void *pvParameters)
 {
+  vTaskSuspend(NULL);
 
   TickType_t xPreviousWakeTime = xTaskGetTickCount();
   for (;;)
@@ -122,7 +126,7 @@ static void hello_world_task(void *pvParameters)
 
 static void init_hello_world_task(void)
 {
-  if (xTaskCreate(hello_world_task, "HelloWorld", 600 / sizeof(StackType_t), NULL, tskIDLE_PRIORITY + 1, NULL) != pdPASS)
+  if (xTaskCreate(hello_world_task, "HelloWorld", 600 / sizeof(StackType_t), NULL, tskIDLE_PRIORITY + 1, &helloWorldTask) != pdPASS)
   {
     for (;;)
       ;

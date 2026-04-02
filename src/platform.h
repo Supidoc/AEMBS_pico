@@ -30,11 +30,11 @@ extern "C" {
 
 /* SW06: Kernel */
 // PRE: enable configUSE_SEGGER_SYSTEM_VIEWER_HOOKS
-#define PL_CONFIG_USE_SYSTEM_VIEW_LOG       (0 && configUSE_SEGGER_SYSTEM_VIEWER_HOOKS) /* logging SystemView messages */
-#define PL_CONFIG_USE_SENSOR_TASK           (0 && McuLib_CONFIG_SDK_USE_FREERTOS) /* sensor values printed with 1 Hz */
+#define PL_CONFIG_USE_SYSTEM_VIEW_LOG       (1 && configUSE_SEGGER_SYSTEM_VIEWER_HOOKS) /* logging SystemView messages */
+#define PL_CONFIG_USE_SENSOR_TASK           (1 && McuLib_CONFIG_SDK_USE_FREERTOS) /* sensor values printed with 1 Hz */
 
 /* SW07: Synchronization */
-#define PL_CONFIG_USE_FROM_ISR_YIELD        (0 && McuLib_CONFIG_SDK_USE_FREERTOS) /* Yielding in ISR or no yield*/
+#define PL_CONFIG_USE_FROM_ISR_YIELD        (1 && McuLib_CONFIG_SDK_USE_FREERTOS) /* Yielding in ISR or no yield*/
 
 /* SW08: Messages */
 // PRE: enable configUSE_TIMERS
