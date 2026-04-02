@@ -69,12 +69,12 @@ void RTOS_Init(void)
 #endif
 }
 
-void RTOS_On_Buttons_ISR(uint32_t buttons)
+void RTOS_on_buttons_isr(uint32_t buttonBits)
 {
 
   for (uint8_t i = 0; i < BUTTONS_NOF_BUTTONS; i++)
   {
-    if (buttons & buttonBitsEnum[i])
+    if (buttonBits & buttonBitsEnum[i])
     {
       RTOS_ButtonsQueueItem_t queueItem;
       queueItem.button = buttonBitsEnum[i];

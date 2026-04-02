@@ -37,6 +37,6 @@ typedef struct _RTOS_ButtonsQueueItem
 
 void RTOS_Init(void);
 
-void RTOS_On_Buttons_ISR(uint32_t buttonBits);
+void RTOS_on_buttons_isr(uint32_t buttonBits);
 
 #endif // RTOS_H_

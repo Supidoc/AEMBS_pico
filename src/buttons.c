@@ -235,7 +235,7 @@ static void gpio_IsrCallback(uint gpio, uint32_t events)
 /* \TODO handle button interrupt */
 #if BML_PROCESS_BUTTONS
     BML_OnISRButtonPressed(button);
-    RTOS_On_Buttons_ISR(button);
+    RTOS_on_buttons_isr(button);
 #endif
   }
 }
