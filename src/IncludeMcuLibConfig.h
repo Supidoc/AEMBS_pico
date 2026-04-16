@@ -23,7 +23,7 @@
 #define configTIMER_TASK_STACK_DEPTH                (600/sizeof(StackType_t)) /* stack size for Timer Service task */
 #define configTOTAL_HEAP_SIZE                       (64*1024)
 #define configUSE_SEGGER_SYSTEM_VIEWER_HOOKS        (1)
-#define configUSE_TIMERS                            (0) /* if using FreeRTOS timers */
+#define configUSE_TIMERS                            (1) /* if using FreeRTOS timers */
 #define INCLUDE_xTimerPendFunctionCall              (configUSE_TIMERS) /* must be enabled if using timers */
 /* -------------------------------------------------*/
 /* I2C */

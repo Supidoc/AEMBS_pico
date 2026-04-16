@@ -24,6 +24,7 @@
 #include "bmLoop.h"
 #include "leds.h"
 #include "buttons.h"
+#include "debounce.h"
 
 void PL_Init(void)
 {
@@ -50,6 +51,7 @@ void PL_Init(void)
   Leds_Init();
   BML_init();
   Buttons_Init();
+  Debounce_Init();
 }
 
 void PL_Deinit(void)
@@ -73,4 +75,5 @@ void PL_Deinit(void)
   Leds_Deinit();
   BML_deinit();
   Buttons_Deinit();
+  Debounce_Deinit();
 }

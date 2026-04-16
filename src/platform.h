@@ -38,8 +38,8 @@ extern "C" {
 
 /* SW08: Messages */
 // PRE: enable configUSE_TIMERS
-#define PL_CONFIG_USE_DEBOUNCE              (0 && McuLib_CONFIG_SDK_USE_FREERTOS) /* debouncing the buttons with timer */
-#define PL_CONFIG_USE_MSG_QUEUE             (0 && McuLib_CONFIG_SDK_USE_FREERTOS) /* sending debounce messages to app with queue*/
+#define PL_CONFIG_USE_DEBOUNCE              (1 && McuLib_CONFIG_SDK_USE_FREERTOS) /* debouncing the buttons with timer */
+#define PL_CONFIG_USE_MSG_QUEUE             (1 && McuLib_CONFIG_SDK_USE_FREERTOS) /* sending debounce messages to app with queue*/
 
 /* SW09: Parallel Processes */
 #define PL_CONFIG_USE_SHELL                 (0 && McuLib_CONFIG_SDK_USE_FREERTOS) /* using command line shell user interface */

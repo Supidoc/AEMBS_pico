@@ -13,6 +13,7 @@
  ********************/
 
 #include "buttons_config.h"
+#include "McuDebounce.h"
 
 /***********************************
  *     Public Macros / Defines     *
@@ -25,6 +26,9 @@
 typedef struct _RTOS_ButtonsQueueItem
 {
   Buttons_e button;
+#if PL_CONFIG_USE_DEBOUNCE
+  McuDbnc_EventKinds eventKind;
+#endif
 } RTOS_ButtonsQueueItem_t;
 
 /****************************
@@ -38,5 +42,6 @@ typedef struct _RTOS_ButtonsQueueItem
 void RTOS_Init(void);
 
 void RTOS_on_buttons_isr(uint32_t buttonBits);
+void RTOS_on_debounce_button_event(Buttons_e button, McuDbnc_EventKinds kind);
 
 #endif // RTOS_H_

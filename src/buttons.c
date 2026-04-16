@@ -236,8 +236,12 @@ static void gpio_IsrCallback(uint gpio, uint32_t events)
 #if BML_PROCESS_BUTTONS
     BML_OnISRButtonPressed(button);
 #endif
-#if McuLib_CONFIG_SDK_USE_FREERTOS
+#if McuLib_CONFIG_SDK_USE_FREERTOS && !PL_CONFIG_USE_DEBOUNCE
     RTOS_on_buttons_isr(button);
+#endif
+#if PL_CONFIG_USE_DEBOUNCE
+    Debounce_StartDebounceFromISR(button, &xHigherPriorityTaskWoken);
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 #endif
   }
 }
