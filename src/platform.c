@@ -25,6 +25,8 @@
 #include "leds.h"
 #include "buttons.h"
 #include "debounce.h"
+#include "shell.h"
+#include "cdcLock.h"
 
 void PL_Init(void)
 {
@@ -52,6 +54,8 @@ void PL_Init(void)
   BML_init();
   Buttons_Init();
   Debounce_Init();
+  Shell_Init();
+  CdcLock_Init();
 }
 
 void PL_Deinit(void)
@@ -76,4 +80,6 @@ void PL_Deinit(void)
   BML_deinit();
   Buttons_Deinit();
   Debounce_Deinit();
+  Shell_Deinit();
+  CdcLock_Deinit();
 }

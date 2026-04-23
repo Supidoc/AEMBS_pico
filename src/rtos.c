@@ -18,6 +18,7 @@
 #include "stdio.h"
 #include "McuSystemView.h"
 #include "McuDebounce.h"
+#include "cdcLock.h"
 
 /************************************
  *     Private Macros / Defines    *
@@ -130,8 +131,10 @@ static void hello_world_task(void *pvParameters)
   TickType_t xPreviousWakeTime = xTaskGetTickCount();
   for (;;)
   {
+    CdcLock_Take();
     McuShellCdcDevice_WriteStr("Hello World!\r\n");
     McuShellCdcDevice_Flush();
+    CdcLock_Give();
 
     vTaskDelayUntil(&xPreviousWakeTime, pdMS_TO_TICKS(RTOS_CONFIG_HELLO_WORLD_DELAY_MS));
   }
@@ -196,11 +199,13 @@ static void buttons_task(void *pvParameters)
           snprintf(msg, sizeof(msg), "Button %s unknown event\r\n", buttonNames[i]);
           break;
         }
+        CdcLock_Take();
         McuShellCdcDevice_WriteStr(msg);
+        McuShellCdcDevice_Flush();
+        CdcLock_Give();
       }
     }
 #endif
-    McuShellCdcDevice_Flush();
   }
 }
 

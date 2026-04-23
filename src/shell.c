@@ -17,19 +17,19 @@
 #include "McuTimeDate.h"
 #include "leds.h"
 #include "shell.h"
+#include "cdcLock.h"
 
 typedef struct
 {
-    McuShell_ConstStdIOType* stdio;
-    unsigned char*           buf;
-    size_t                   bufSize;
+  McuShell_ConstStdIOType *stdio;
+  unsigned char           *buf;
+  size_t                   bufSize;
 } SHELL_IODesc;
 
 static const SHELL_IODesc ios[] = {
-    {&McuShellCdcDevice_stdio, McuShellCdcDevice_DefaultShellBuffer,
-     sizeof(McuShellCdcDevice_DefaultShellBuffer)},
+    {&McuShellCdcDevice_stdio, McuShellCdcDevice_DefaultShellBuffer, sizeof(McuShellCdcDevice_DefaultShellBuffer)},
 #if PL_CONFIG_USE_RTT
-    {&McuRTT_stdio, McuRTT_DefaultShellBuffer, sizeof(McuRTT_DefaultShellBuffer)},
+    {&McuRTT_stdio,            McuRTT_DefaultShellBuffer,            sizeof(McuRTT_DefaultShellBuffer)           },
 #endif
 };
 
@@ -40,44 +40,41 @@ static const McuShell_ParseCommandCallback CmdParserTable[] = {
     McuShellCdcDevice_ParseCommand, Leds_ParseCommand,     NULL /* Sentinel */
 };
 
-static void ShellTask(void* pvParameters)
+static void ShellTask(void *pvParameters)
 {
-    int i;
+  int i;
 
-    (void)pvParameters; /* not used */
-    McuLog_trace("started shell task");
-    /* initialize buffers */
+  (void)pvParameters; /* not used */
+  McuLog_trace("started shell task");
+  /* initialize buffers */
+  for (i = 0; i < sizeof(ios) / sizeof(ios[0]); i++)
+  {
+    ios[i].buf[0] = '\0';
+  }
+  for (;;)
+  {
+    /* process all I/Os */
     for (i = 0; i < sizeof(ios) / sizeof(ios[0]); i++)
     {
-        ios[i].buf[0] = '\0';
+      CdcLock_Take();
+      (void)McuShell_ReadAndParseWithCommandTable(ios[i].buf, ios[i].bufSize, ios[i].stdio, CmdParserTable);
+      CdcLock_Give();
     }
-    for (;;)
-    {
-        /* process all I/Os */
-        for (i = 0; i < sizeof(ios) / sizeof(ios[0]); i++)
-        {
-            (void)McuShell_ReadAndParseWithCommandTable(ios[i].buf, ios[i].bufSize, ios[i].stdio,
-                                                        CmdParserTable);
-        }
-        vTaskDelay(pdMS_TO_TICKS(10));
-    } /* for */
+    vTaskDelay(pdMS_TO_TICKS(10));
+  } /* for */
 }
 
 void Shell_Init(void)
 {
-    if (xTaskCreate(ShellTask, "Shell", 1024 / sizeof(StackType_t), NULL, tskIDLE_PRIORITY + 1,
-                    NULL) != pdPASS)
+  if (xTaskCreate(ShellTask, "Shell", 1024 / sizeof(StackType_t), NULL, tskIDLE_PRIORITY + 1, NULL) != pdPASS)
+  {
+    for (;;)
     {
-        for (;;)
-        {
-        } /* error */
-    }
-    McuShell_SetStdio(ios[0].stdio);
+    } /* error */
+  }
+  McuShell_SetStdio(ios[0].stdio);
 }
 
-void Shell_Deinit(void)
-{
-    McuShell_SetStdio(NULL);
-}
+void Shell_Deinit(void) { McuShell_SetStdio(NULL); }
 
 #endif /* PL_CONFIG_USE_SHELL */

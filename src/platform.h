@@ -42,8 +42,8 @@ extern "C" {
 #define PL_CONFIG_USE_MSG_QUEUE             (1 && McuLib_CONFIG_SDK_USE_FREERTOS) /* sending debounce messages to app with queue*/
 
 /* SW09: Parallel Processes */
-#define PL_CONFIG_USE_SHELL                 (0 && McuLib_CONFIG_SDK_USE_FREERTOS) /* using command line shell user interface */
-#define PL_CONFIG_USE_CDC_LOCK              (0 && PL_CONFIG_USE_SHELL) /* locking/unlocking the USB CDC channel */
+#define PL_CONFIG_USE_SHELL                 (1 && McuLib_CONFIG_SDK_USE_FREERTOS) /* using command line shell user interface */
+#define PL_CONFIG_USE_CDC_LOCK              (1 && PL_CONFIG_USE_SHELL) /* locking/unlocking the USB CDC channel */
 
 /* SW10: User Interface */
 #define PL_CONFIG_USE_GAME                  (0)   /* game with MVC architecture */
