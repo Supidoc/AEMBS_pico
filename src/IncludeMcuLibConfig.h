@@ -39,7 +39,7 @@
 #define McuGenericI2C_CONFIG_USE_ON_ERROR_EVENT       (0)
 #define McuGenericI2C_CONFIG_USE_ON_RELEASE_BUS_EVENT (0)
 #define McuGenericI2C_CONFIG_USE_ON_REQUEST_BUS_EVENT (0)
-#define McuGenericI2C_CONFIG_USE_MUTEX                (0 && McuLib_CONFIG_SDK_USE_FREERTOS)
+#define McuGenericI2C_CONFIG_USE_MUTEX                (1 && McuLib_CONFIG_SDK_USE_FREERTOS)
 
 #if CONFIG_USE_HW_I2C /* implementation in McuI2cLib.c */
   #define McuLib_CONFIG_MCUI2CLIB_ENABLED                       (1)

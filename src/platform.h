@@ -46,7 +46,7 @@ extern "C" {
 #define PL_CONFIG_USE_CDC_LOCK              (1 && PL_CONFIG_USE_SHELL) /* locking/unlocking the USB CDC channel */
 
 /* SW10: User Interface */
-#define PL_CONFIG_USE_GAME                  (0)   /* game with MVC architecture */
+#define PL_CONFIG_USE_GAME                  (1)   /* game with MVC architecture */
 
 /* SW11: Graphic */
 #define PL_CONFIG_USE_GAME_SCREENS          (0) /* Game help, game score */

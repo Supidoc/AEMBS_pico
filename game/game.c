@@ -6,8 +6,16 @@
 
 #include "game.h"
 
-void Game_Init(void) {
+void Game_Init(void)
+{
   Game_ModelInit();
   Game_ViewInit();
   Game_ControllerInit();
+}
+
+void Game_Deinit(void)
+{
+  Game_ControllerDeinit();
+  Game_ViewDeinit();
+  Game_ModelDeinit();
 }

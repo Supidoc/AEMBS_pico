@@ -19,6 +19,8 @@
 #include "McuSystemView.h"
 #include "McuDebounce.h"
 #include "cdcLock.h"
+#include "sensor.h"
+#include "gameController.h"
 
 /************************************
  *     Private Macros / Defines    *
@@ -38,6 +40,8 @@ static void hello_world_task(void *pvParameters);
 static void init_hello_world_task(void);
 static void buttons_task(void *pvParameters);
 static void init_buttons_task(void);
+static void app_task(void *pvParameters);
+static void init_app_task(void);
 
 /****************************
  *     Public Variables     *
@@ -74,6 +78,32 @@ void RTOS_Init(void)
 #if RTOS_CONFIG_USE_BUTTONS_TASK
   init_buttons_task();
 #endif
+  Sensor_Init();
+}
+
+void init_app_task(void)
+{
+  if (xTaskCreate(app_task, "AppTask", 600 / sizeof(StackType_t), NULL, tskIDLE_PRIORITY + 1, NULL) != pdPASS)
+  {
+    for (;;)
+      ;
+  }
+}
+
+void app_task(void *pvParameters)
+{
+  float temperature, humidity;
+  while (!Sensor_GetValues(&temperature, &humidity))
+  {
+    vTaskDelay(pdMS_TO_TICKS(100));
+  }
+
+  Game_OnNewRandomSeed((int)temperature * 100 + (int)humidity);
+
+  for (;;)
+  {
+    vTaskDelay(pdMS_TO_TICKS(1000));
+  }
 }
 
 void RTOS_on_buttons_isr(uint32_t buttonBits)
@@ -98,6 +128,7 @@ void RTOS_on_debounce_button_event(Buttons_e button, McuDbnc_EventKinds kind)
   queueItem.button    = button;
   queueItem.eventKind = kind;
   xQueueSend(buttonsQueue, &queueItem, portMAX_DELAY);
+  Game_OnButtonEvent(button, kind);
 }
 /********************************************
  *     Private Function Implementations     *

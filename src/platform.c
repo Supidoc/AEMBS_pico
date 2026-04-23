@@ -27,6 +27,7 @@
 #include "debounce.h"
 #include "shell.h"
 #include "cdcLock.h"
+#include "game.h"
 
 void PL_Init(void)
 {
@@ -56,6 +57,7 @@ void PL_Init(void)
   Debounce_Init();
   Shell_Init();
   CdcLock_Init();
+  Game_Init();
 }
 
 void PL_Deinit(void)
@@ -82,4 +84,5 @@ void PL_Deinit(void)
   Debounce_Deinit();
   Shell_Deinit();
   CdcLock_Deinit();
+  Game_Deinit();
 }
