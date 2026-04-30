@@ -114,6 +114,8 @@ static void gameTask(void *pv)
   Game_New();
   Game_ShowScreen(GAME_SCREEN_INTRO);
   delay_ms(2000);
+  Game_ShowScreen(GAME_SCREEN_HELP);
+  delay_ms(8000);
   for (;;)
   {
     Game_ShowScreen(GAME_SCREEN_GAMEPLAY);
@@ -150,6 +152,8 @@ static void gameTask(void *pv)
         break;
       case Game_Event_Kind_Game_Lost:
         Game_ShowScreen(GAME_SCREEN_GAME_LOST);
+        delay_ms(2000);
+        Game_ShowScreen(GAME_SCREEN_SCORE);
         for (;;)
         {
           delay_ms(1000);
@@ -157,6 +161,8 @@ static void gameTask(void *pv)
         break;
       case Game_Event_Kind_Game_Won:
         Game_ShowScreen(GAME_SCREEN_GAME_WON);
+        delay_ms(2000);
+        Game_ShowScreen(GAME_SCREEN_SCORE);
         for (;;)
         {
           delay_ms(1000);

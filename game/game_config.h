@@ -11,7 +11,7 @@
 #define GAME_CONFIG_HAS_MISSILES  (1)
 
 /* game score and settings */
-#define GAME_CONFIG_HAS_SCORE     (0)
+#define GAME_CONFIG_HAS_SCORE     (1)
 #if GAME_CONFIG_HAS_SCORE
 #define GAME_SCORE_MISSED_ASTEROID     (-5) /* costs of asteroid going out of screen */
 #define GAME_SCORE_HIT_ASTEROID        (10) /* score for hitting an asteroid */

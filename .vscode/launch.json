@@ -6,10 +6,10 @@
             "type": "cortex-debug",
             "request": "launch",
             "servertype": "jlink",
-            "serverpath": "${env:PICO_JLINK_PATH}/JLinkGDBServerCL",
+            "serverpath": "/usr/bin/JLinkGDBServerCL",
             "cwd": "${workspaceRoot}",
             "executable": "${command:cmake.launchTargetPath}",
-            "armToolchainPath": "${env:PICO_TOOLCHAIN_PATH}",  // needed for the gdb
+            "armToolchainPath": "${env:PICO_TOOLCHAIN_PATH}", // needed for the gdb
             "device": "RP2040_M0_0",
             "interface": "swd",
             "runToEntryPoint": "main", // "_reset_handler" or for example "main"
@@ -42,14 +42,14 @@
             "gdbTarget": "host.docker.internal:2331", // launch on the host: JLinkGDBServerCL -select USB -device RP2040_M0_0 -endian little -if SWD -rtos GDBServer/RTOSPlugin_FreeRTOS
             "device": "RP2040_M0_0",
             "runToEntryPoint": "main", // "_reset_handler" or for example "main"
-            "postLaunchCommands":[
+            "postLaunchCommands": [
                 "monitor reset",
                 "monitor semihosting enable",
                 "monitor semihosting ioclient 1", // 1: telnet (localhost, port 50002); 2: gdb; 3: both telnet and gdbclient output
             ],
             "svdFile": "${env:PICO_SDK_PATH}/src/rp2040/hardware_regs/rp2040.svd",
             "loadFiles": [
-              "${command:cmake.launchTargetPath}"
+                "${command:cmake.launchTargetPath}"
             ],
         },
     ]
